@@ -5,7 +5,74 @@
 #include <concepts>
 #include "ntstatus.hpp"
 
+// ============================================================================
+// Cross-Platform Calling Conventions & Windows ABI Types
+// ============================================================================
+#ifndef _WIN32
+  #ifndef __stdcall
+    #define __stdcall
+  #endif
+  #ifndef __cdecl
+    #define __cdecl
+  #endif
+  #ifndef __fastcall
+    #define __fastcall
+  #endif
+  #ifndef WINAPI
+    #define WINAPI
+  #endif
+  #ifndef CALLBACK
+    #define CALLBACK
+  #endif
+  #ifndef NTAPI
+    #define NTAPI
+  #endif
+  #ifndef APIENTRY
+    #define APIENTRY
+  #endif
+  #ifndef VOID
+    #define VOID void
+  #endif
+
+  #ifndef _BOOL_DEFINED
+    #define _BOOL_DEFINED
+    using BOOL = int32_t;
+    using BOOLEAN = uint8_t;
+    #ifndef TRUE
+      inline constexpr BOOL TRUE = 1;
+    #endif
+    #ifndef FALSE
+      inline constexpr BOOL FALSE = 0;
+    #endif
+  #endif
+#else
+  #ifndef WINAPI
+    #define WINAPI __stdcall
+  #endif
+  #ifndef CALLBACK
+    #define CALLBACK __stdcall
+  #endif
+  #ifndef NTAPI
+    #define NTAPI __stdcall
+  #endif
+  #ifndef APIENTRY
+    #define APIENTRY __stdcall
+  #endif
+#endif
+
 namespace micant {
+
+#ifndef _MICANT_BOOL_DEFINED
+#define _MICANT_BOOL_DEFINED
+using BOOL = int32_t;
+using BOOLEAN = uint8_t;
+#ifndef TRUE
+inline constexpr BOOL TRUE = 1;
+#endif
+#ifndef FALSE
+inline constexpr BOOL FALSE = 0;
+#endif
+#endif
 
 using Handle = intptr_t;
 inline constexpr Handle InvalidHandleValue = -1;

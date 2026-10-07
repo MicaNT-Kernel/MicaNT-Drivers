@@ -2889,7 +2889,7 @@ public:
 // 3. Win32 Version Standard API Exports
 // ============================================================================
 
-inline uint32_t __stdcall GetFileVersionInfoSizeA(const char* lptstrFilename, uint32_t* lpdwHandle) {
+inline uint32_t WINAPI GetFileVersionInfoSizeA(const char* lptstrFilename, uint32_t* lpdwHandle) {
     if (lpdwHandle) *lpdwHandle = 0;
     if (!lptstrFilename || !*lptstrFilename) return 0;
     const auto* mod = VersionDatabase::Instance().FindModule(lptstrFilename);
@@ -2897,7 +2897,7 @@ inline uint32_t __stdcall GetFileVersionInfoSizeA(const char* lptstrFilename, ui
     return static_cast<uint32_t>(mod->BuildBinaryResource().size());
 }
 
-inline uint32_t __stdcall GetFileVersionInfoSizeW(const wchar_t* lptstrFilename, uint32_t* lpdwHandle) {
+inline uint32_t WINAPI GetFileVersionInfoSizeW(const wchar_t* lptstrFilename, uint32_t* lpdwHandle) {
     if (lpdwHandle) *lpdwHandle = 0;
     if (!lptstrFilename || !*lptstrFilename) return 0;
     std::string narrow;
@@ -2905,7 +2905,7 @@ inline uint32_t __stdcall GetFileVersionInfoSizeW(const wchar_t* lptstrFilename,
     return GetFileVersionInfoSizeA(narrow.c_str(), lpdwHandle);
 }
 
-inline int32_t __stdcall GetFileVersionInfoA(const char* lptstrFilename, uint32_t, uint32_t dwLen, void* lpData) {
+inline int32_t WINAPI GetFileVersionInfoA(const char* lptstrFilename, uint32_t, uint32_t dwLen, void* lpData) {
     if (!lptstrFilename || !lpData || dwLen == 0) return 0;
     const auto* mod = VersionDatabase::Instance().FindModule(lptstrFilename);
     if (!mod) return 0;
@@ -2915,14 +2915,14 @@ inline int32_t __stdcall GetFileVersionInfoA(const char* lptstrFilename, uint32_
     return 1;
 }
 
-inline int32_t __stdcall GetFileVersionInfoW(const wchar_t* lptstrFilename, uint32_t dwHandle, uint32_t dwLen, void* lpData) {
+inline int32_t WINAPI GetFileVersionInfoW(const wchar_t* lptstrFilename, uint32_t dwHandle, uint32_t dwLen, void* lpData) {
     if (!lptstrFilename || !lpData || dwLen == 0) return 0;
     std::string narrow;
     while (*lptstrFilename) narrow.push_back(static_cast<char>(*lptstrFilename++));
     return GetFileVersionInfoA(narrow.c_str(), dwHandle, dwLen, lpData);
 }
 
-inline int32_t __stdcall VerQueryValueA(const void* pBlock, const char* lpSubBlock, void** lplpBuffer, uint32_t* puLen) {
+inline int32_t WINAPI VerQueryValueA(const void* pBlock, const char* lpSubBlock, void** lplpBuffer, uint32_t* puLen) {
     if (!pBlock || !lpSubBlock || !lplpBuffer || !puLen) return 0;
 
     std::string sub(lpSubBlock);
@@ -2967,14 +2967,14 @@ inline int32_t __stdcall VerQueryValueA(const void* pBlock, const char* lpSubBlo
     return 0;
 }
 
-inline int32_t __stdcall VerQueryValueW(const void* pBlock, const wchar_t* lpSubBlock, void** lplpBuffer, uint32_t* puLen) {
+inline int32_t WINAPI VerQueryValueW(const void* pBlock, const wchar_t* lpSubBlock, void** lplpBuffer, uint32_t* puLen) {
     if (!pBlock || !lpSubBlock || !lplpBuffer || !puLen) return 0;
     std::string sub;
     while (*lpSubBlock) sub.push_back(static_cast<char>(*lpSubBlock++));
     return VerQueryValueA(pBlock, sub.c_str(), lplpBuffer, puLen);
 }
 
-inline uint32_t __stdcall VerLanguageNameA(uint32_t wLang, char* szLang, uint32_t nSize) {
+inline uint32_t WINAPI VerLanguageNameA(uint32_t wLang, char* szLang, uint32_t nSize) {
     if (!szLang || nSize == 0) return 0;
     std::string name;
     switch (wLang & 0xFFFF) {
@@ -2993,7 +2993,7 @@ inline uint32_t __stdcall VerLanguageNameA(uint32_t wLang, char* szLang, uint32_
     return static_cast<uint32_t>(len);
 }
 
-inline uint32_t __stdcall VerLanguageNameW(uint32_t wLang, wchar_t* szLang, uint32_t nSize) {
+inline uint32_t WINAPI VerLanguageNameW(uint32_t wLang, wchar_t* szLang, uint32_t nSize) {
     if (!szLang || nSize == 0) return 0;
     char buf[64]{};
     uint32_t count = VerLanguageNameA(wLang, buf, sizeof(buf));

@@ -36,6 +36,8 @@
 #include "micant/wdiwifi.hpp"
 
 using namespace micant;
+using namespace micant::wdf;
+using namespace micant::usb4;
 
 static int g_PassedTests = 0;
 static int g_FailedTests = 0;
