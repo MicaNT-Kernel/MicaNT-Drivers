@@ -45,6 +45,21 @@
       inline constexpr BOOL FALSE = 0;
     #endif
   #endif
+
+  inline int strncpy_s(char* dest, size_t destsz, const char* src, size_t count) {
+      if (!dest || destsz == 0) return 22; // EINVAL
+      if (!src) {
+          dest[0] = '\0';
+          return 22;
+      }
+      size_t n = 0;
+      while (n < count && n < destsz - 1 && src[n] != '\0') {
+          dest[n] = src[n];
+          n++;
+      }
+      dest[n] = '\0';
+      return 0;
+  }
 #else
   #ifndef WINAPI
     #define WINAPI __stdcall

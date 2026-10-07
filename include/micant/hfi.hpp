@@ -423,7 +423,9 @@ inline NTSTATUS WINAPI HfiGetProcessorInfo(char* pModelBuf, size_t bufSize, uint
 
     if (pModelBuf && bufSize > 0) {
         std::string m = sub.getCpuModel();
-        strncpy_s(pModelBuf, bufSize, m.c_str(), bufSize - 1);
+        size_t copyLen = std::min(m.size(), bufSize - 1);
+        std::memcpy(pModelBuf, m.data(), copyLen);
+        pModelBuf[copyLen] = '\0';
     }
     if (pCoreCount) {
         *pCoreCount = static_cast<uint32_t>(sub.getCoreCount());

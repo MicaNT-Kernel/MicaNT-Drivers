@@ -396,11 +396,15 @@ inline NTSTATUS WINAPI PlutonGetCapabilities(char* pModelBuf, size_t modelBufSiz
 
     if (pModelBuf && modelBufSize > 0) {
         std::string m = sub.getProcessorModel();
-        strncpy_s(pModelBuf, modelBufSize, m.c_str(), modelBufSize - 1);
+        size_t copyLen = std::min(m.size(), modelBufSize - 1);
+        std::memcpy(pModelBuf, m.data(), copyLen);
+        pModelBuf[copyLen] = '\0';
     }
     if (pFwBuf && fwBufSize > 0) {
         std::string fw = sub.getFirmwareVersion();
-        strncpy_s(pFwBuf, fwBufSize, fw.c_str(), fwBufSize - 1);
+        size_t copyLen = std::min(fw.size(), fwBufSize - 1);
+        std::memcpy(pFwBuf, fw.data(), copyLen);
+        pFwBuf[copyLen] = '\0';
     }
     if (pMode) {
         *pMode = static_cast<uint32_t>(sub.getOperatingMode());
