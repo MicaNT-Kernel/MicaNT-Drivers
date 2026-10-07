@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Persistent Memory (NVDIMM / Optane PMEM) & DAX Storage Subsystem (TitanPMEM / NexusPMEM)
+; Binary:    pmem.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = Memory
+ClassGUID   = {5099944A-E698-4D3C-B038-0207F2104719}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = pmem.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\ACPI0012
+%DeviceDesc_1% = Driver_Install, ACPI\NFIT
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\ACPI0012
+%DeviceDesc_1% = Driver_Install, ACPI\NFIT
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+pmem.sys
+
+[Driver_Install.Services]
+AddService = pmem, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\pmem.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Persistent Memory (NVDIMM / Optane) & DAX Driver"
+DeviceDesc_0   = "Persistent Memory (NVDIMM / Optane PMEM) & DAX Storage Subsystem (ACPI\ACPI0012)"
+DeviceDesc_1   = "Persistent Memory (NVDIMM / Optane PMEM) & DAX Storage Subsystem (ACPI\NFIT)"

@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Neural Processing Unit & Microsoft Compute Driver Model (MCDM) (TitanNPU / NexusNPU)
+; Binary:    mcdm.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = ComputeAccelerator
+ClassGUID   = {F043A03B-FFC4-4270-83C1-9A727005706E}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = mcdm.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_8086&DEV_7D1D
+%DeviceDesc_1% = Driver_Install, PCI\CC_120000
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_8086&DEV_7D1D
+%DeviceDesc_1% = Driver_Install, PCI\CC_120000
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+mcdm.sys
+
+[Driver_Install.Services]
+AddService = mcdm, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 1
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\mcdm.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Neural Processing Unit (NPU) & MCDM Copilot+ Accelerator Driver"
+DeviceDesc_0   = "Neural Processing Unit & Microsoft Compute Driver Model (MCDM) (PCI\VEN_8086&DEV_7D1D)"
+DeviceDesc_1   = "Neural Processing Unit & Microsoft Compute Driver Model (MCDM) (PCI\CC_120000)"

@@ -1,0 +1,52 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Microsoft Pluton On-Die Security Processor & Hardware RoT (TitanPluton / AegisPluton)
+; Binary:    pluton.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = SecurityDevices
+ClassGUID   = {D94EE5D8-D189-4994-83D2-F68D7D41B0E6}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = pluton.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\MSFT0101
+%DeviceDesc_1% = Driver_Install, ACPI\MSFT0200
+%DeviceDesc_2% = Driver_Install, ACPI\PLTN0001
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\MSFT0101
+%DeviceDesc_1% = Driver_Install, ACPI\MSFT0200
+%DeviceDesc_2% = Driver_Install, ACPI\PLTN0001
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+pluton.sys
+
+[Driver_Install.Services]
+AddService = pluton, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\pluton.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Microsoft Pluton Security Processor & Hardware TPM 2.0 Driver"
+DeviceDesc_0   = "Microsoft Pluton On-Die Security Processor & Hardware RoT (ACPI\MSFT0101)"
+DeviceDesc_1   = "Microsoft Pluton On-Die Security Processor & Hardware RoT (ACPI\MSFT0200)"
+DeviceDesc_2   = "Microsoft Pluton On-Die Security Processor & Hardware RoT (ACPI\PLTN0001)"

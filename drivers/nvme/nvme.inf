@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: NVM Express (NVMe 1.0-2.0), UFS 4.0 & AHCI Storage Subsystem (TitanNVMe / TitanFlash)
+; Binary:    stornvme.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = SCSIAdapter
+ClassGUID   = {4D36E97B-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = stornvme.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\CC_010802
+%DeviceDesc_1% = Driver_Install, PCI\VEN_8086&DEV_0A54
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\CC_010802
+%DeviceDesc_1% = Driver_Install, PCI\VEN_8086&DEV_0A54
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+stornvme.sys
+
+[Driver_Install.Services]
+AddService = stornvme, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\stornvme.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "NVM Express (NVMe) & Flash Storage Miniport Driver"
+DeviceDesc_0   = "NVM Express (NVMe 1.0-2.0), UFS 4.0 & AHCI Storage Subsystem (PCI\CC_010802)"
+DeviceDesc_1   = "NVM Express (NVMe 1.0-2.0), UFS 4.0 & AHCI Storage Subsystem (PCI\VEN_8086&DEV_0A54)"

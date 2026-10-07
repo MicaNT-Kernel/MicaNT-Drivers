@@ -1,0 +1,52 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Intel SGX/TDX & AMD SEV-SNP Confidential Computing Subsystem (TitanTEE / AegisTEE)
+; Binary:    virtenclave.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System
+ClassGUID   = {4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = virtenclave.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, CPUID\SGX
+%DeviceDesc_1% = Driver_Install, CPUID\TDX
+%DeviceDesc_2% = Driver_Install, CPUID\SEV_SNP
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, CPUID\SGX
+%DeviceDesc_1% = Driver_Install, CPUID\TDX
+%DeviceDesc_2% = Driver_Install, CPUID\SEV_SNP
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+virtenclave.sys
+
+[Driver_Install.Services]
+AddService = virtenclave, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 1
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\virtenclave.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Hardware Confidential Computing & Trusted Execution Environment Driver"
+DeviceDesc_0   = "Intel SGX/TDX & AMD SEV-SNP Confidential Computing Subsystem (CPUID\SGX)"
+DeviceDesc_1   = "Intel SGX/TDX & AMD SEV-SNP Confidential Computing Subsystem (CPUID\TDX)"
+DeviceDesc_2   = "Intel SGX/TDX & AMD SEV-SNP Confidential Computing Subsystem (CPUID\SEV_SNP)"

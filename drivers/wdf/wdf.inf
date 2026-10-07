@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Windows Driver Frameworks (KMDF v1.33 & UMDF 2.0) Core Library (TitanWDF / AegisWDF)
+; Binary:    Wdf01000.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System
+ClassGUID   = {4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = Wdf01000.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, ROOT\WDF01000
+%DeviceDesc_1% = Driver_Install, WDF\KMDF_1_33
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, ROOT\WDF01000
+%DeviceDesc_1% = Driver_Install, WDF\KMDF_1_33
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+Wdf01000.sys
+
+[Driver_Install.Services]
+AddService = Wdf01000, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\Wdf01000.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Kernel-Mode Driver Framework (KMDF v1.33) Runtime Library"
+DeviceDesc_0   = "Windows Driver Frameworks (KMDF v1.33 & UMDF 2.0) Core Library (ROOT\WDF01000)"
+DeviceDesc_1   = "Windows Driver Frameworks (KMDF v1.33 & UMDF 2.0) Core Library (WDF\KMDF_1_33)"

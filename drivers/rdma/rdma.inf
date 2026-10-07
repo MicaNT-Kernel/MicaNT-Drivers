@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Remote Direct Memory Access (RoCE v2 / InfiniBand) & SMB Direct (TitanRDMA / NexusSMB)
+; Binary:    ndisrdma.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = Net
+ClassGUID   = {4D36E972-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = ndisrdma.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_15B3&DEV_101B
+%DeviceDesc_1% = Driver_Install, PCI\CC_020700
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_15B3&DEV_101B
+%DeviceDesc_1% = Driver_Install, PCI\CC_020700
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+ndisrdma.sys
+
+[Driver_Install.Services]
+AddService = ndisrdma, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ndisrdma.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "NetworkDirect RDMA (RoCE v2 / InfiniBand) & SMB Direct Driver"
+DeviceDesc_0   = "Remote Direct Memory Access (RoCE v2 / InfiniBand) & SMB Direct (PCI\VEN_15B3&DEV_101B)"
+DeviceDesc_1   = "Remote Direct Memory Access (RoCE v2 / InfiniBand) & SMB Direct (PCI\CC_020700)"

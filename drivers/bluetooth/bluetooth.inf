@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Bluetooth 5.4 & LE Audio Kernel Port Driver Subsystem (TitanBTH / NexusBTH)
+; Binary:    bthport.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = Bluetooth
+ClassGUID   = {E0CBF06C-CD8B-4647-BB8A-263B43F0F974}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = bthport.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, USB\Class_E0&SubClass_01&Prot_01
+%DeviceDesc_1% = Driver_Install, BTH\MS_BTHPORT
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, USB\Class_E0&SubClass_01&Prot_01
+%DeviceDesc_1% = Driver_Install, BTH\MS_BTHPORT
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+bthport.sys
+
+[Driver_Install.Services]
+AddService = bthport, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 1
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\bthport.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Bluetooth 5.4 Host Controller & LE Audio Port Driver"
+DeviceDesc_0   = "Bluetooth 5.4 & LE Audio Kernel Port Driver Subsystem (USB\Class_E0&SubClass_01&Prot_01)"
+DeviceDesc_1   = "Bluetooth 5.4 & LE Audio Kernel Port Driver Subsystem (BTH\MS_BTHPORT)"

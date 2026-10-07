@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: DirectStorage 1.2 / BypassIO Storage Acceleration Subsystem (TitanBypassIO / NexusBypassIO)
+; Binary:    bypassio.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = FSFilter-Bottom
+ClassGUID   = {71AA7053-C8A4-47FA-9E24-2C6274E8203E}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = bypassio.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, MS_BYPASSIO_FILTER
+%DeviceDesc_1% = Driver_Install, FSFilter\BypassIO
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, MS_BYPASSIO_FILTER
+%DeviceDesc_1% = Driver_Install, FSFilter\BypassIO
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+bypassio.sys
+
+[Driver_Install.Services]
+AddService = bypassio, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 2
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\bypassio.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Fast-Path BypassIO Minifilter & DirectStorage Acceleration Driver"
+DeviceDesc_0   = "DirectStorage 1.2 / BypassIO Storage Acceleration Subsystem (MS_BYPASSIO_FILTER)"
+DeviceDesc_1   = "DirectStorage 1.2 / BypassIO Storage Acceleration Subsystem (FSFilter\BypassIO)"

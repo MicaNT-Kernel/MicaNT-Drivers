@@ -1,0 +1,22 @@
+name: MicaNT-Drivers CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build All Drivers
+        run: cmake --build build --config Release
+      - name: Run Master Driver Test Suite
+        run: ctest --test-dir build --output-on-failure

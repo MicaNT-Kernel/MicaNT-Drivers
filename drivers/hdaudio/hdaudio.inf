@@ -1,0 +1,52 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Intel High Definition Audio (HDA 1.0a) & USB Audio 2.0 Subsystem (TitanHDA / NexusHDA)
+; Binary:    hdaudio.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = MEDIA
+ClassGUID   = {4D36E96C-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = hdaudio.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\CC_040300
+%DeviceDesc_1% = Driver_Install, PCI\VEN_8086&DEV_2668
+%DeviceDesc_2% = Driver_Install, HDAUDIO\FUNC_01
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\CC_040300
+%DeviceDesc_1% = Driver_Install, PCI\VEN_8086&DEV_2668
+%DeviceDesc_2% = Driver_Install, HDAUDIO\FUNC_01
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+hdaudio.sys
+
+[Driver_Install.Services]
+AddService = hdaudio, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\hdaudio.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Intel High Definition Audio Bus & Codec Controller Driver"
+DeviceDesc_0   = "Intel High Definition Audio (HDA 1.0a) & USB Audio 2.0 Subsystem (PCI\CC_040300)"
+DeviceDesc_1   = "Intel High Definition Audio (HDA 1.0a) & USB Audio 2.0 Subsystem (PCI\VEN_8086&DEV_2668)"
+DeviceDesc_2   = "Intel High Definition Audio (HDA 1.0a) & USB Audio 2.0 Subsystem (HDAUDIO\FUNC_01)"

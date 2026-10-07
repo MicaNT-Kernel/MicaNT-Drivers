@@ -1,0 +1,52 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: PCIe SR-IOV 1.1, PASID (20-bit) & Shared Virtual Addressing (SVA) (TitanSRIOV / NexusSVA)
+; Binary:    pci_sriov.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System
+ClassGUID   = {4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = pci_sriov.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\SRIOV
+%DeviceDesc_1% = Driver_Install, PCI\PASID
+%DeviceDesc_2% = Driver_Install, PCI\ATS
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\SRIOV
+%DeviceDesc_1% = Driver_Install, PCI\PASID
+%DeviceDesc_2% = Driver_Install, PCI\ATS
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+pci_sriov.sys
+
+[Driver_Install.Services]
+AddService = pci_sriov, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\pci_sriov.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "PCIe Single Root I/O Virtualization (SR-IOV) & SVA Driver"
+DeviceDesc_0   = "PCIe SR-IOV 1.1, PASID (20-bit) & Shared Virtual Addressing (SVA) (PCI\SRIOV)"
+DeviceDesc_1   = "PCIe SR-IOV 1.1, PASID (20-bit) & Shared Virtual Addressing (SVA) (PCI\PASID)"
+DeviceDesc_2   = "PCIe SR-IOV 1.1, PASID (20-bit) & Shared Virtual Addressing (SVA) (PCI\ATS)"

@@ -1,0 +1,52 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: ACPI 6.5 Platform & AML Interpreter Subsystem (TitanACPI / AegisACPI)
+; Binary:    acpi.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System
+ClassGUID   = {4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = acpi.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\PNP0A08
+%DeviceDesc_1% = Driver_Install, ACPI\PNP0C0C
+%DeviceDesc_2% = Driver_Install, *PNP0A08
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\PNP0A08
+%DeviceDesc_1% = Driver_Install, ACPI\PNP0C0C
+%DeviceDesc_2% = Driver_Install, *PNP0A08
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+acpi.sys
+
+[Driver_Install.Services]
+AddService = acpi, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\acpi.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "ACPI 6.5 Platform Architecture & AML Interpreter Driver"
+DeviceDesc_0   = "ACPI 6.5 Platform & AML Interpreter Subsystem (ACPI\PNP0A08)"
+DeviceDesc_1   = "ACPI 6.5 Platform & AML Interpreter Subsystem (ACPI\PNP0C0C)"
+DeviceDesc_2   = "ACPI 6.5 Platform & AML Interpreter Subsystem (*PNP0A08)"

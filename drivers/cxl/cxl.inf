@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: Compute Express Link (CXL 2.0 / 3.1) Heterogeneous Memory Fabric (TitanCXL / NexusCXL)
+; Binary:    cxlhost.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System
+ClassGUID   = {4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = cxlhost.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_1E98&DEV_0001
+%DeviceDesc_1% = Driver_Install, PCI\CC_060400
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_1E98&DEV_0001
+%DeviceDesc_1% = Driver_Install, PCI\CC_060400
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+cxlhost.sys
+
+[Driver_Install.Services]
+AddService = cxlhost, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\cxlhost.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Compute Express Link (CXL) Host Bridge & Memory Driver"
+DeviceDesc_0   = "Compute Express Link (CXL 2.0 / 3.1) Heterogeneous Memory Fabric (PCI\VEN_1E98&DEV_0001)"
+DeviceDesc_1   = "Compute Express Link (CXL 2.0 / 3.1) Heterogeneous Memory Fabric (PCI\CC_060400)"

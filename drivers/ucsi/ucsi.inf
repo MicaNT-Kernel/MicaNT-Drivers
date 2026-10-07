@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: USB Type-C (UCSI 2.1/3.0) & USB Power Delivery 3.1 Subsystem (TitanUCSI / NexusUCSI)
+; Binary:    ucsi.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = USB
+ClassGUID   = {36FC9E60-C465-11CF-8056-444553540000}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = ucsi.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\USBC000
+%DeviceDesc_1% = Driver_Install, ACPI\PNP0CA0
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, ACPI\USBC000
+%DeviceDesc_1% = Driver_Install, ACPI\PNP0CA0
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+ucsi.sys
+
+[Driver_Install.Services]
+AddService = ucsi, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 1
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ucsi.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "USB Type-C Connector System Software Interface (UCSI) Driver"
+DeviceDesc_0   = "USB Type-C (UCSI 2.1/3.0) & USB Power Delivery 3.1 Subsystem (ACPI\USBC000)"
+DeviceDesc_1   = "USB Type-C (UCSI 2.1/3.0) & USB Power Delivery 3.1 Subsystem (ACPI\PNP0CA0)"

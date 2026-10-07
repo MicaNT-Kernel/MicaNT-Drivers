@@ -1,0 +1,49 @@
+; ============================================================================
+; MicaNT Sovereign Clean-Room Driver Installation Information
+; Subsystem: NDIS 6.88 & High-Speed Network Adapter Subsystem (RazzleNet) (TitanNDIS / RazzleNet)
+; Binary:    ndis.sys
+; Standards: Clean-Room ISO C++23, zero telemetry, 100% offline
+; ============================================================================
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = Net
+ClassGUID   = {4D36E972-E325-11CE-BFC1-08002BE10318}
+Provider    = %ProviderName%
+DriverVer   = 10/07/2026,10.0.26100.1
+CatalogFile = ndis.cat
+PnpLockdown = 1
+
+[Manufacturer]
+%ManufacturerName% = Standard,NTamd64.10.0,NTarm64.10.0
+
+[Standard.NTamd64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_8086&DEV_1563
+%DeviceDesc_1% = Driver_Install, PCI\CC_020000
+
+[Standard.NTarm64.10.0]
+%DeviceDesc_0% = Driver_Install, PCI\VEN_8086&DEV_1563
+%DeviceDesc_1% = Driver_Install, PCI\CC_020000
+
+[Driver_Install]
+CopyFiles = Driver_Files
+
+[Driver_Files]
+ndis.sys
+
+[Driver_Install.Services]
+AddService = ndis, 0x00000002, Service_Install
+
+[Service_Install]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ndis.sys
+
+[Strings]
+ProviderName     = "MicaNT Clean-Room Foundation"
+ManufacturerName = "MicaNT Sovereign Hardware Architecture"
+ServiceDesc      = "Network Driver Interface Specification (NDIS 6.88) & 100GbE Driver"
+DeviceDesc_0   = "NDIS 6.88 & High-Speed Network Adapter Subsystem (RazzleNet) (PCI\VEN_8086&DEV_1563)"
+DeviceDesc_1   = "NDIS 6.88 & High-Speed Network Adapter Subsystem (RazzleNet) (PCI\CC_020000)"
